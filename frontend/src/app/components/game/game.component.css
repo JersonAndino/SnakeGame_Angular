@@ -1,14 +1,20 @@
 #content{
     margin:auto;
 }
+#box-board{
+    background-color: beige;
+    padding: 20px;
+    width: 500px;
+    height: 500px;
+}
 #board{
     margin: auto;
     width: 500px;
     height: 500px;
-    background-color: beige;
-    padding: 20px;
+    /* padding: 20px; */
     display: flex;
     flex-wrap: wrap;
+    position: relative;
 }
 .box1{
     width: 20px;
@@ -19,4 +25,23 @@
     width: 20px;
     height: 20px;
     background-color:rgb(153, 222, 68);
+}
+#snake{
+    position: absolute;
+}
+.cell{
+    width: 18px;
+    height: 18px;
+    background-color:rgb(102, 102, 102);
+    border: 1px solid rgb(91, 79, 0);
+    /* border-radius: 100%; */
+    position: absolute;
+}
+.apple{
+    width: 18px;
+    height: 18px;
+    background-color:rgb(255, 0, 0);
+    border: 2px solid rgb(0, 163, 19);
+    border-radius: 100%; 
+    position: absolute;
 }
