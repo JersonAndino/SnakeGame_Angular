@@ -1,0 +1,22 @@
+#content{
+    margin:auto;
+}
+#board{
+    margin: auto;
+    width: 500px;
+    height: 500px;
+    background-color: beige;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.box1{
+    width: 20px;
+    height: 20px;
+    background-color: rgb(123, 229, 130);
+}
+.box2{
+    width: 20px;
+    height: 20px;
+    background-color:rgb(153, 222, 68);
+}
