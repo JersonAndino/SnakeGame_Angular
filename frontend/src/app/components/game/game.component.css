@@ -5,12 +5,13 @@
     background-color: beige;
     padding: 20px;
     width: 500px;
-    height: 500px;
+    min-height: 500px;
+    margin: auto;
 }
 #board{
     margin: auto;
-    width: 500px;
-    height: 500px;
+    min-width: 500px;
+    min-height: 500px;
     /* padding: 20px; */
     display: flex;
     flex-wrap: wrap;
@@ -32,11 +33,52 @@
 .cell{
     width: 18px;
     height: 18px;
-    background-color:rgb(102, 102, 102);
-    border: 1px solid rgb(91, 79, 0);
+    background-color:rgb(5, 115, 129);
+    border: 1px solid rgb(0, 60, 116);
     /* border-radius: 100%; */
     position: absolute;
 }
+.tail{
+    background-color:rgb(91, 91, 91);
+}
+.tail-top{
+    border-bottom-left-radius: 100%;
+    border-bottom-right-radius: 100%;
+}
+.tail-right{
+    border-top-left-radius: 100%;
+    border-bottom-left-radius: 100%;
+}
+.tail-bottom{
+    border-top-left-radius: 100%;
+    border-top-right-radius: 100%;
+}
+.tail-left{
+    border-top-right-radius: 100%;
+    border-bottom-right-radius: 100%;
+}
+
+.head{
+    /* background-color:rgb(9, 255, 0); */
+    z-index: 100;
+}
+.head-top{
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.head-right{
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.head-bottom{
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.head-left{
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
 .apple{
     width: 18px;
     height: 18px;
@@ -44,4 +86,44 @@
     border: 2px solid rgb(0, 163, 19);
     border-radius: 100%; 
     position: absolute;
+    z-index: 100;
+}
+#comandos{
+    width: 0;
+    height: 0;
+    border: none;
+    font-size: 0;
+    all:unset;
+}
+.c01{
+    border-bottom-right-radius: 100%;
+    /* background-color: aqua; */
+}
+.c03{
+    border-bottom-left-radius: 100%;
+    /* background-color: aqua; */
+}
+.c10{
+    border-top-left-radius: 100%;
+    /* background-color: aqua; */
+}
+.c12{
+    border-bottom-left-radius: 100%;
+    /* background-color: aqua */
+}
+.c21{
+    border-top-right-radius: 100%;
+    /* background-color: aqua */
+}
+.c23{
+    border-top-left-radius: 100%;
+    /* background-color: aqua */
+}
+.c30{
+    border-top-right-radius: 100%;
+    /* background-color: aqua */
+}
+.c32{
+    border-bottom-right-radius: 100%;
+    /* background-color: aqua */
 }

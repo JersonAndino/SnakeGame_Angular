@@ -6,6 +6,7 @@ import { Component,OnInit,ViewChild,Renderer2, ElementRef, AfterViewInit } from 
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit{
+score=0;
 width=500;
 height=500;
 boxes:any[];
@@ -14,6 +15,7 @@ cont=0;
 manzana:any;
 @ViewChild("board") board!:ElementRef;
 @ViewChild("snakeB") snakeB!:ElementRef;
+@ViewChild("comandos") comandos!:ElementRef;
 constructor(
   private renderer: Renderer2,
   private element:ElementRef
@@ -42,13 +44,73 @@ cleanBoard(){
 drawSnake(){
   this.cleanBoard();
   this.dibujarManzana();
+  let red=5;
+  let green=118;
+  let blue=129;
   for(let i=0;i< this.snake.length;i++){
-    var cellTemp=this.renderer.createElement("div");
-    cellTemp.setAttribute('class','cell');
-    let x = this.parseX(this.snake[i].x);
-    let y = this.parseY(this.snake[i].y);
-    cellTemp.setAttribute('style','top:'+x+";left:"+y+";");
-    this.renderer.appendChild(this.snakeB.nativeElement,cellTemp);
+    if( i==0){
+      var cellTemp=this.renderer.createElement("div");
+        switch (this.snake[i].dir){
+          case 0:{ //TOP 
+            cellTemp.setAttribute('class','cell head head-top');
+            break;
+          }
+          case 1:{ //RIGHT
+            cellTemp.setAttribute('class','cell head head-right');
+            break;
+          }
+          case 2:{ //BOTTOM
+            cellTemp.setAttribute('class','cell head head-bottom');
+            break;
+          }
+          case 3:{ //LEFT
+            cellTemp.setAttribute('class','cell head head-left');
+            break;
+          }
+        }
+        let x = this.parseX(this.snake[i].x);
+        let y = this.parseY(this.snake[i].y);
+        cellTemp.setAttribute('style','top:'+x+";left:"+y+";"+'background-color: rgb('+red+','+green+','+blue+');');
+        this.renderer.appendChild(this.snakeB.nativeElement,cellTemp);
+    }
+    else{
+      if( i == this.snake.length-1){
+        var cellTemp=this.renderer.createElement("div");
+        switch (this.snake[i].dir){
+          case 0:{ //TOP 
+            cellTemp.setAttribute('class','cell tail tail-top');
+            break;
+          }
+          case 1:{ //RIGHT
+            cellTemp.setAttribute('class','cell tail tail-right');
+            break;
+          }
+          case 2:{ //BOTTOM
+            cellTemp.setAttribute('class','cell tail tail-bottom');
+            break;
+          }
+          case 3:{ //LEFT
+            cellTemp.setAttribute('class','cell tail tail-left');
+            break;
+          }
+        }
+        let x = this.parseX(this.snake[i].x);
+        let y = this.parseY(this.snake[i].y);
+        cellTemp.setAttribute('style','top:'+x+";left:"+y+";"+'background-color: rgb('+red+','+green+','+blue+');');
+        this.renderer.appendChild(this.snakeB.nativeElement,cellTemp);
+      }else{
+        let curva = this.detectarCurva(this.snake[i],this.snake[i+1]);
+        // console.log(curva);
+        var cellTemp=this.renderer.createElement("div");
+        cellTemp.setAttribute('class','cell '+curva);
+        let x = this.parseX(this.snake[i].x);
+        let y = this.parseY(this.snake[i].y);
+        cellTemp.setAttribute('style','top:'+x+";left:"+y+";"+'background-color: rgb('+red+','+green+','+blue+');');
+        this.renderer.appendChild(this.snakeB.nativeElement,cellTemp);
+      }
+    }
+    blue-=2;
+    
   }
 }
 cleanSnake(){
@@ -58,13 +120,14 @@ cleanSnake(){
   }
 }
 initSnake(x:number){
+  this.score=0;
   this.cleanSnake();
   this.snake.push({x:x,y:5,id:1,dir:1});
   this.snake.push({x:x,y:4,id:2,dir:1});
-  this.snake.push({x:x,y:3,id:2,dir:1});
-  this.snake.push({x:x,y:2,id:2,dir:1});
+  this.snake.push({x:x,y:3,id:3,dir:1});
 }
 repeat(){
+  this.comandos.nativeElement.focus();
   this.moverSnake(this.snake.length-1);
   if(this.isValid()){
     this.comerManzana();
@@ -74,7 +137,7 @@ repeat(){
   }  
   setTimeout(()=>{
     this.repeat();
-  },200);
+  },100);
 }
 parseX(x:number):string{
   let x_px=x*20;
@@ -131,19 +194,23 @@ curva(currentCell:any,previousCell:any){
 presionarTecla(teclaPresionada:any){
   switch (teclaPresionada.code){
     case 'ArrowUp':{ //TOP
-      this.snake[0].dir=0;
+      if (this.snake[0].dir!=2)
+      {this.snake[0].dir=0;}
     break;
     }
     case 'ArrowRight':{ //RIGHT
-      this.snake[0].dir=1;
+      if (this.snake[0].dir!=3)
+      {this.snake[0].dir=1;}
       break;
       }
     case 'ArrowDown':{ //BOTTOM
-      this.snake[0].dir=2;
+      if (this.snake[0].dir!=0)
+      {this.snake[0].dir=2;}
     break;
     }
     case 'ArrowLeft':{ //LEFT
-      this.snake[0].dir=3;
+      if (this.snake[0].dir!=1)
+      {this.snake[0].dir=3;}
       break;
       }
   }
@@ -174,6 +241,7 @@ dibujarManzana(){
 comerManzana(){
   if(this.snake[0].x==this.manzana.x && this.snake[0].y==this.manzana.y){
     this.crecer();
+    this.score++;
     this.generarManzana();
   }
 }
@@ -201,5 +269,68 @@ crecer(){
     }
   }
   this.snake.push({x:nx,y:ny,dir:dir});
+}
+detectarCurva(cell1:any,cell2:any):string{
+  console.log(cell1);
+  let res="";
+  if(cell1.dir!=cell2.dir){
+    switch (cell1.dir){
+      case 0:{ //TOP 
+        switch (cell2.dir){
+          case 1:{
+            res = 'c01';
+            break;
+          }
+          case 3:{
+            res = 'c03';
+            break;
+          }
+        }    
+      break;
+      }
+      case 1:{ //RIGHT
+        switch (cell2.dir){
+          case 0:{
+            res = 'c10';
+            break;
+          }
+          case 2:{
+            res = 'c12';
+            break;
+          }
+        } 
+        break;
+      }
+      case 2:{ //BOTTOM
+        switch (cell2.dir){
+          case 1:{
+            res = 'c21';
+            break;
+          }
+          case 3:{
+            res = 'c23';
+            break;
+          }
+        } 
+      break;
+      }
+      case 3:{ //LEFT
+        switch (cell2.dir){
+          case 0:{
+            res = 'c30';
+            break;
+          }
+          case 2:{
+            res = 'c32';
+            break;
+          }
+        } 
+        break;
+      }
+    }
+  }else{
+    res='';
+  }
+  return res;
 }
 }

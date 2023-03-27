@@ -1,5 +1,10 @@
 <div id="content">
-    <div id="box-board">
+    <div id="box-board" >
+        <div id="statistics">
+            <div>
+                <span><h1><b>SCORE: </b>{{score}}</h1></span>
+            </div>
+        </div>
         <div id="board" #board>
             <div *ngFor="let box of boxes" class="box">
                 <div *ngIf="(box.x)%2==0 && box.y%2==0" class="box1"></div>
@@ -12,6 +17,6 @@
                 <div class="cell" id="cell.id">{{cell.id}} </div>
             </div> -->
         </div>
-        <input type="text" #comandos (keydown)="presionarTecla($event)">
+        <input type="text" id="comandos" class="" #comandos (keydown)="presionarTecla($event)">
     </div>
 </div>
