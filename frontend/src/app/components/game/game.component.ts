@@ -109,7 +109,7 @@ drawSnake(){
         this.renderer.appendChild(this.snakeB.nativeElement,cellTemp);
       }
     }
-    blue-=2;
+    blue+=5;
     
   }
 }
